@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 const BlogCards = ({ post }) => {
+  
   const threeLineContent = post.content.split("\n").slice(0, 3).join("\n");
   return (
     <Link
@@ -15,6 +16,7 @@ const BlogCards = ({ post }) => {
             className="w-full h-full object-cover"
           />
         </div>
+
 
         <div className="flex-1 flex flex-col p-4">
           <h3 className="text-xl font-bold truncate mb-2">{post.title}</h3>

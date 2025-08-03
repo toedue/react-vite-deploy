@@ -11,7 +11,6 @@ const EditBlogModal = ({ blog, onClose, onSave }) => {
     content: "",
   });
 
-  
   useEffect(() => {
     if (blog) {
       setFormData({
@@ -36,10 +35,27 @@ const EditBlogModal = ({ blog, onClose, onSave }) => {
     onClose();
   };
 
+  // Function to format date as MM/DD/YYYY
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+    });
+  };
+
+  const handleDateChange = (e) => {
+    const dateValue = e.target.value;
+    setFormData((prev) => ({
+      ...prev,
+      date: dateValue ? formatDate(dateValue) : "",
+    }));
+  };
+
   return (
     <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white w-[800px] h-[900px] rounded-lg overflow-hidden flex flex-col shadow-xl border border-gray-200">
-        
         <div className="bg-gray-100 p-6 flex justify-between items-center">
           <h2 className="text-2xl font-bold">Edit Your Post</h2>
           <button
@@ -50,12 +66,10 @@ const EditBlogModal = ({ blog, onClose, onSave }) => {
           </button>
         </div>
 
-        
         <form
           onSubmit={handleSubmit}
           className="w-[635px] h-[666px] mx-auto mt-8 space-y-6"
         >
-          
           <div className="flex gap-6">
             <div className="flex-1">
               <label className="block text-sm font-medium mb-1">Author</label>
@@ -69,7 +83,7 @@ const EditBlogModal = ({ blog, onClose, onSave }) => {
                 required
               />
             </div>
-            <div className="flex-1">
+            {/* <div className="flex-1">
               <label className="block text-sm font-medium mb-1">Date</label>
               <input
                 type="text"
@@ -80,10 +94,27 @@ const EditBlogModal = ({ blog, onClose, onSave }) => {
                 onChange={handleChange}
                 required
               />
+            </div> */}
+
+            {/* Replace the date input with this: */}
+            <div className="flex-1">
+              <label className="block text-sm font-medium mb-1">Date</label>
+              <input
+                type="date"
+                name="date"
+                className="w-full p-3 border rounded-md"
+                onChange={handleDateChange}
+                value={
+                  formData.date
+                    ? new Date(formData.date).toISOString().split("T")[0]
+                    : ""
+                }
+              />
             </div>
+
+            
           </div>
 
-          
           <div>
             <label className="block text-sm font-medium mb-1">
               Profile Link
@@ -111,7 +142,6 @@ const EditBlogModal = ({ blog, onClose, onSave }) => {
             />
           </div>
 
-          
           <div>
             <label className="block text-sm font-medium mb-1">
               Description
@@ -126,7 +156,6 @@ const EditBlogModal = ({ blog, onClose, onSave }) => {
             />
           </div>
 
-          
           <div className="flex-1">
             <label className="block text-sm font-medium mb-1">Content</label>
             <textarea

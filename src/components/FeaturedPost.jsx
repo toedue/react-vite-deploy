@@ -3,8 +3,8 @@ import featuredImage from "../assets/image.jpg";
 const FeaturedPost = () => {
   return (
     <div className="px-4 py-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="relative mt-4 rounded-xl overflow-hidden h-96">
+      <div className="">
+        <div className="relative mt-4 rounded-xl overflow-hidden h-150">
           <img
             src={featuredImage}
             className="w-full h-full object-cover rounded-2xl "

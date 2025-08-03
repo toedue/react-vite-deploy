@@ -11,50 +11,61 @@ const PostBlogModal = ({ onClose, onSubmit }) => {
     image: null,
   });
 
-  const [previewImage, setPreviewImage] = useState(null); 
+  const [previewImage, setPreviewImage] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      
       setPreviewImage(URL.createObjectURL(file));
-      
+
       setFormData((prev) => ({ ...prev, image: file.name }));
     }
   };
 
   const handlePost = () => {
-    
     const existingPosts = JSON.parse(localStorage.getItem("blogPosts")) || [];
 
-    
     const newId =
       existingPosts.length > 0
         ? Math.max(...existingPosts.map((post) => post.id)) + 1
         : 1;
 
-    
     const newPost = {
       id: newId,
       ...formData,
       createdAt: new Date().toISOString(),
     };
 
-    
     localStorage.setItem(
       "blogPosts",
       JSON.stringify([...existingPosts, newPost])
     );
 
-    
     onSubmit(newPost);
     onClose();
+  };
+
+  // Function to format date as MM/DD/YYYY
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+    });
+  };
+
+  const handleDateChange = (e) => {
+    const dateValue = e.target.value;
+    setFormData((prev) => ({
+      ...prev,
+      date: dateValue ? formatDate(dateValue) : "",
+    }));
   };
 
   return (
@@ -64,9 +75,7 @@ const PostBlogModal = ({ onClose, onSubmit }) => {
           <h2 className="text-2xl font-bold">Post a Blog</h2>
         </div>
 
-        
         <div className="w-[635px] h-[666px] mx-auto mt-8 space-y-6">
-          
           <div className="flex gap-6">
             <div className="flex-1">
               <label className="block text-sm font-medium mb-1">Author</label>
@@ -80,7 +89,7 @@ const PostBlogModal = ({ onClose, onSubmit }) => {
               />
             </div>
 
-            <div className="flex-1">
+            {/* <div className="flex-1">
               <label className="block text-sm font-medium mb-1">Date</label>
               <input
                 type="text"
@@ -90,10 +99,25 @@ const PostBlogModal = ({ onClose, onSubmit }) => {
                 value={formData.date}
                 onChange={handleChange}
               />
+            </div> */}
+
+            <div className="flex-1">
+              <label className="block text-sm font-medium mb-1">Date</label>
+              <input
+                type="date"
+                name="date"
+                className="w-full p-3 border rounded-md"
+                onChange={handleDateChange}
+                value={
+                  formData.date
+                    ? new Date(formData.date).toISOString().split("T")[0]
+                    : ""
+                }
+              />
             </div>
+            
           </div>
 
-          
           <div>
             <label className="block text-sm font-medium mb-1">
               Profile Link
@@ -108,7 +132,6 @@ const PostBlogModal = ({ onClose, onSubmit }) => {
             />
           </div>
 
-          
           <div>
             <label className="block text-sm font-medium mb-1">Title</label>
             <input
@@ -121,7 +144,6 @@ const PostBlogModal = ({ onClose, onSubmit }) => {
             />
           </div>
 
-        
           <div>
             <label className="block text-sm font-medium mb-1">
               Description
@@ -136,7 +158,6 @@ const PostBlogModal = ({ onClose, onSubmit }) => {
             />
           </div>
 
-          
           <div>
             <label className="block text-sm font-medium mb-1">Blog Image</label>
             <input
@@ -156,7 +177,6 @@ const PostBlogModal = ({ onClose, onSubmit }) => {
             )}
           </div>
 
-          
           <div className="flex-1">
             <label className="block text-sm font-medium mb-1">Content</label>
             <textarea
@@ -169,7 +189,6 @@ const PostBlogModal = ({ onClose, onSubmit }) => {
           </div>
         </div>
 
-       
         <div className="flex justify-between p-6 mt-10 px-20">
           <button
             onClick={onClose}

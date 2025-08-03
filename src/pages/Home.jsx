@@ -8,7 +8,6 @@ import PostBlogModal from "../components/PostBlogModal";
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [blogPosts, setBlogPosts] = useState([]);
-
   const [visiblePosts, setVisiblePosts] = useState(9);
 
   
@@ -23,6 +22,8 @@ const Home = () => {
   };
 
   return (
+
+    
     <div className="min-h-screen bg-gray-50">
       <Header onPostClick={() => setShowModal(true)} />
       <FeaturedPost />
@@ -47,7 +48,7 @@ const Home = () => {
         <div className="flex justify-center mt-8">
           <button
             onClick={() => setVisiblePosts((prev) => prev + 9)} // Load 9 more posts
-            className="px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800"
+            className="px-6 py-2 my-10 bg-black text-white rounded-md hover:bg-gray-800"
           >
             Show More
           </button>
